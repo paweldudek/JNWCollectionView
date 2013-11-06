@@ -55,4 +55,7 @@ extern NSString * const JNWCollectionViewGridLayoutFooterKind;
 // override any value set here.
 @property (nonatomic, assign) CGSize itemSize;
 
+// The minimum horizontal spacing between items
+@property (nonatomic, assign) CGFloat minimumInteritemSpacing;
+
 @end
