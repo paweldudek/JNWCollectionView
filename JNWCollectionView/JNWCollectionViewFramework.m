@@ -96,9 +96,6 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
 	collectionView.visibleSupplementaryViewsMap = [NSMutableDictionary dictionary];
 	collectionView.reusableSupplementaryViews = [NSMutableDictionary dictionary];
 	
-	// By default we are layer-backed.
-	collectionView.wantsLayer = YES;
-	
 	// Set the document view to a custom class that returns YES to -isFlipped.
 	collectionView.documentView = [[JNWCollectionViewDocumentView alloc] initWithFrame:CGRectZero];
 

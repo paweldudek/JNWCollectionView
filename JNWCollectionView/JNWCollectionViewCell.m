@@ -33,7 +33,6 @@
 - (id)initWithFrame:(NSRect)frameRect {
 	self = [super initWithFrame:frameRect];
 	if (self == nil) return nil;
-	self.wantsLayer = YES;
 	self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
 	return self;
 }
@@ -80,13 +79,11 @@
 	self = [super initWithFrame:frameRect];
 	if (self == nil) return nil;
 	
-	self.wantsLayer = YES;
 	self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
 
 	
 	_contentView = [[NSView alloc] initWithFrame:self.bounds];
 	_contentView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
-	_contentView.wantsLayer = YES;
 
 	_backgroundView = [[JNWCollectionViewCellBackgroundView alloc] initWithFrame:self.bounds];
 	_backgroundView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
