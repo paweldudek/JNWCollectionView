@@ -147,6 +147,7 @@ typedef NS_ENUM(NSInteger, JNWCollectionViewScrollPosition) {
 //
 // The identifer must not be nil, otherwise an exception will be thrown.
 - (JNWCollectionViewCell *)dequeueReusableCellWithIdentifier:(NSString *)identifier;
+- (JNWCollectionViewCell *)dequeueReusableCellWithIdentifier:(NSString *)identifier forIndexPath:(NSIndexPath *)indexPath;
 - (JNWCollectionViewReusableView *)dequeueReusableSupplementaryViewOfKind:(NSString *)kind withReuseIdentifer:(NSString *)identifier;
 
 // The layout is responsible for providing the positioning and layout attributes for cells and views.

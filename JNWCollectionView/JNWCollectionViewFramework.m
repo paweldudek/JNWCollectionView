@@ -226,6 +226,13 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
 	return cell;
 }
 
+- (JNWCollectionViewCell *)dequeueReusableCellWithIdentifier:(NSString *)identifier forIndexPath:(NSIndexPath *)indexPath
+{
+    JNWCollectionViewCell *cell = [self dequeueReusableCellWithIdentifier:identifier];
+    [self updateCell:cell forIndexPath:indexPath];
+    return cell;
+}
+
 - (JNWCollectionViewReusableView *)dequeueReusableSupplementaryViewOfKind:(NSString *)kind withReuseIdentifer:(NSString *)reuseIdentifier {
 	NSParameterAssert(reuseIdentifier);
 	NSParameterAssert(kind);
