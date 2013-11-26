@@ -25,6 +25,18 @@
 
 @implementation JNWCollectionViewLayoutAttributes
 
+- (id)copyWithZone:(NSZone *)zone
+{
+    JNWCollectionViewLayoutAttributes *copy = [[[self class] allocWithZone:zone] init];
+
+    if (copy != nil) {
+        copy.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width, self.frame.size.height);
+        copy.alpha = self.alpha;
+    }
+
+    return copy;
+}
+
 @end
 
 @implementation JNWCollectionViewLayout

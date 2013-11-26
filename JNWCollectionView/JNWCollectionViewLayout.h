@@ -27,9 +27,11 @@ typedef NS_ENUM(NSInteger, JNWCollectionViewDirection) {
 	JNWCollectionViewDirectionDown
 };
 
-@interface JNWCollectionViewLayoutAttributes : NSObject
+@interface JNWCollectionViewLayoutAttributes : NSObject <NSCopying>
+
 @property (nonatomic, assign) CGRect frame;
 @property (nonatomic, assign) CGFloat alpha;
+- (id)copyWithZone:(NSZone *)zone;
 @end
 
 @class JNWCollectionView;
