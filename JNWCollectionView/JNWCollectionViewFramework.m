@@ -1195,6 +1195,7 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
             [cell setHidden:YES];
         }
         self.isAnimating = NO;
+        [self layoutDocumentView];
         if (completion != NULL) {
             completion(YES);
         }
