@@ -537,13 +537,9 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
 		if (wantsInvalidation && _collectionViewFlags.wantsLayout) {
 			[self resetAllCells];
 		}
-		
-		// Check once more whether or not the document view needs to be resized.
-		// If there are a different number of items, the encompassing size might have changed.
-		if (!CGSizeEqualToSize(self.visibleSize, self.data.encompassingSize)) {
-			[self layoutDocumentView];
-		}
-		
+
+        [self layoutDocumentView];
+
 		[self layoutCellsWithRedraw:YES];
 		[self layoutSupplementaryViewsWithRedraw:YES];
 		
