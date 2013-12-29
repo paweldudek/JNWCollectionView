@@ -72,6 +72,7 @@ static const CGSize JNWCollectionViewGridLayoutDefaultSize = (CGSize){ 44.f, 44.
 	self = [super initWithCollectionView:collectionView];
 	if (self == nil) return nil;
 	self.itemSize = JNWCollectionViewGridLayoutDefaultSize;
+    self.edgeInsets = NSEdgeInsetsMake(0, 0, 0, 0);
 	return self;
 }
 
@@ -107,7 +108,7 @@ static const CGSize JNWCollectionViewGridLayoutDefaultSize = (CGSize){ 44.f, 44.
 	BOOL delegateHeightForHeader = [self.delegate respondsToSelector:@selector(collectionView:heightForHeaderInSection:)];
 	BOOL delegateHeightForFooter = [self.delegate respondsToSelector:@selector(collectionView:heightForFooterInSection:)];
 	
-	CGFloat totalWidth = self.collectionView.visibleSize.width;
+	CGFloat totalWidth = self.collectionView.visibleSize.width - self.edgeInsets.left - self.edgeInsets.right;
 	NSUInteger numberOfColumns = totalWidth / itemSize.width;
 	NSUInteger numberOfSections = [self.collectionView numberOfSections];
 	
@@ -132,8 +133,10 @@ static const CGSize JNWCollectionViewGridLayoutDefaultSize = (CGSize){ 44.f, 44.
     } else {
         leftInset = self.itemPadding;
     }
+    leftInset += self.edgeInsets.left;
 
     CGFloat totalHeight = 0;
+    totalHeight += self.edgeInsets.top;
 	for (NSUInteger section = 0; section < numberOfSections; section++) {
 		NSInteger numberOfItems = [self.collectionView numberOfItemsInSection:section];
 		NSInteger headerHeight = delegateHeightForHeader ? [self.delegate collectionView:self.collectionView heightForHeaderInSection:section] : 0;

@@ -139,6 +139,8 @@
 	} else {
 		encompassingSize = layout.contentSize;
 	}
+
+    encompassingSize.height += layout.edgeInsets.top + layout.edgeInsets.bottom;
 	
 	// As documented, we stretch the size to be at least the size of the collection view's frame size.
 	CGSize collectionViewSize = self.collectionView.frame.size;

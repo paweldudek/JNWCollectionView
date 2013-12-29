@@ -104,6 +104,8 @@ typedef NS_ENUM(NSInteger, JNWCollectionViewDirection) {
 // The default return value is YES.
 - (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)newBounds;
 
+@property (nonatomic) NSEdgeInsets edgeInsets;
+
 @end
 
 @interface JNWCollectionView()
