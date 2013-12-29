@@ -61,4 +61,6 @@ extern NSString * const JNWCollectionViewGridLayoutFooterKind;
 // The minimum vertical spacing between items
 @property (nonatomic, assign) CGFloat minimumLineSpacing;
 
+@property (nonatomic) BOOL fixedSpacing;
+
 @end

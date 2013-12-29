@@ -118,7 +118,7 @@ static const CGSize JNWCollectionViewGridLayoutDefaultSize = (CGSize){ 44.f, 44.
 		numberOfColumns -= ceil(extraPaddingNeeded / itemSize.width);
 		totalPadding = totalWidth - (numberOfColumns * itemSize.width);
 	}
-	self.itemPadding = floorf(totalPadding / (numberOfColumns + 1));
+    self.itemPadding = self.fixedSpacing ? self.minimumInteritemSpacing : floorf(totalPadding / (numberOfColumns + 1));
 
 	if (numberOfColumns < 1) {
 		self.itemPadding = 0;
@@ -126,7 +126,14 @@ static const CGSize JNWCollectionViewGridLayoutDefaultSize = (CGSize){ 44.f, 44.
 	}
 	self.numberOfColumns = numberOfColumns;
 	
-	CGFloat totalHeight = 0;
+    CGFloat leftInset;
+    if (self.fixedSpacing) {
+        leftInset = round((totalWidth - ((itemSize.width + self.itemPadding) * numberOfColumns - self.itemPadding)) / 2);
+    } else {
+        leftInset = self.itemPadding;
+    }
+
+    CGFloat totalHeight = 0;
 	for (NSUInteger section = 0; section < numberOfSections; section++) {
 		NSInteger numberOfItems = [self.collectionView numberOfItemsInSection:section];
 		NSInteger headerHeight = delegateHeightForHeader ? [self.delegate collectionView:self.collectionView heightForHeaderInSection:section] : 0;
@@ -143,13 +150,13 @@ static const CGSize JNWCollectionViewGridLayoutDefaultSize = (CGSize){ 44.f, 44.
 			CGPoint origin = CGPointZero;
             NSInteger column = item % numberOfColumns;
             NSInteger row = (NSInteger)floor(item / numberOfColumns);
-            origin.x = self.itemPadding + column * (itemSize.width + self.itemPadding);
+            origin.x = leftInset + column * (itemSize.width + self.itemPadding);
             origin.y = row * (itemSize.height + self.minimumLineSpacing);
 			sectionInfo.itemInfo[item].origin = origin;
 		}
 
         NSUInteger numberOfRowsInSection = (NSUInteger)ceilf((float)numberOfItems / (float)numberOfColumns);
-        CGFloat totalVerticalSpacing = fmax(self.minimumInteritemSpacing*(numberOfRowsInSection-1), 0); // In case numberOfRowsInSection is 0
+        CGFloat totalVerticalSpacing = fmax(self.minimumLineSpacing*(numberOfRowsInSection-1), 0); // In case numberOfRowsInSection is 0
         sectionInfo.height = itemSize.height * numberOfRowsInSection + totalVerticalSpacing;
 		totalHeight += sectionInfo.height + footerHeight + headerHeight;
 		[self.sections addObject:sectionInfo];
