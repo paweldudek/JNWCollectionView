@@ -1094,7 +1094,10 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
 
 
     NSArray* sortedVisibleIndexPaths = [self.indexPathsForVisibleItems sortedArrayUsingSelector:@selector(compare:)] ;
-    NSSet *oldVisibleItems = [[NSSet setWithArray:sortedVisibleIndexPaths] map:existingIndexPathMapping];
+    NSArray *mappedVisibleIndexPaths = [sortedVisibleIndexPaths map:existingIndexPathMapping];
+    NSMutableSet *oldMutableVisibleItems = [NSMutableSet setWithArray:mappedVisibleIndexPaths];
+    [oldMutableVisibleItems minusSet:[NSSet setWithArray:deletedIndexPaths]];
+    NSSet *oldVisibleItems = oldMutableVisibleItems.copy;
 
 
 
@@ -1109,6 +1112,7 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
         if (numberOfItemsToBeInsertedAtBeginning > 0) {
             for (NSUInteger i = 1; i <= numberOfItemsToBeInsertedAtBeginning; i++) {
                 NSIndexPath* oldIndexPath = [NSIndexPath jnw_indexPathForItem:oldFirstVisibleIndexPath.jnw_item-i inSection:0];
+                if (oldIndexPath.jnw_item < 0) continue;
                 NSIndexPath* indexPath = existingIndexPathMapping(oldIndexPath);
                 [self addCellForIndexPath:indexPath];
                 JNWCollectionViewCell* cell = [self cellForItemAtIndexPath:indexPath];
