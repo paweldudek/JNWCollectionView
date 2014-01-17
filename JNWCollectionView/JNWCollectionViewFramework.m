@@ -274,6 +274,9 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
 	[self layoutDocumentView];
 	[self layoutCells];
 	[self layoutSupplementaryViews];
+    if (!self.selectedIndexes.count) {
+        [self selectItemAtIndexPath:[NSIndexPath jnw_indexPathForItem:0 inSection:0] animated:NO];
+    }
 }
 
 - (void)resetAllCells {
@@ -628,10 +631,12 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
         [cell setHidden:NO];
     }
 
-    if ([self.selectedIndexes containsObject:indexPath])
+    if ([self.selectedIndexes containsObject:indexPath]) {
+        NSLog(@"%@", indexPath);
         cell.selected = YES;
-    else
+    } else {
         cell.selected = NO;
+    }
 
     self.visibleCellsMap[indexPath] = cell;
     
