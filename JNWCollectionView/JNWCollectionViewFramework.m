@@ -909,7 +909,7 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
 	
 	[self selectItemsAtIndexPaths:indexesToSelect.allObjects animated:animated];
 	[self deselectItemsAtIndexPaths:indexesToDeselect.allObjects animated:animated];
-//	[self scrollToItemAtIndexPath:indexPath atScrollPosition:scrollPosition animated:animated];
+	[self scrollToItemAtIndexPath:indexPath atScrollPosition:scrollPosition animated:animated];
 }
 
 - (void)mouseDownInCollectionViewCell:(JNWCollectionViewCell *)cell withEvent:(NSEvent *)event {
