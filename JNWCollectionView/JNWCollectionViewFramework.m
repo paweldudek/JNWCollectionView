@@ -30,6 +30,7 @@
 #import "NSDictionary+Mapping.h"
 #import "NSArray+Mapping.h"
 
+
 typedef NS_ENUM(NSInteger, JNWCollectionViewSelectionType) {
 	JNWCollectionViewSelectionTypeSingle,
 	JNWCollectionViewSelectionTypeExtending,
@@ -1099,11 +1100,9 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
 
 
     NSArray* sortedVisibleIndexPaths = [self.indexPathsForVisibleItems sortedArrayUsingSelector:@selector(compare:)] ;
-    NSArray *mappedVisibleIndexPaths = [sortedVisibleIndexPaths map:existingIndexPathMapping];
-    NSMutableSet *oldMutableVisibleItems = [NSMutableSet setWithArray:mappedVisibleIndexPaths];
-    [oldMutableVisibleItems minusSet:[NSSet setWithArray:deletedIndexPaths]];
-    NSSet *oldVisibleItems = oldMutableVisibleItems.copy;
-
+    NSMutableSet *visibleIndexPathsWithoutDeletions = [NSMutableSet setWithArray:sortedVisibleIndexPaths];
+    [visibleIndexPathsWithoutDeletions minusSet:[NSSet setWithArray:deletedIndexPaths]];
+    NSSet *oldVisibleItems = [visibleIndexPathsWithoutDeletions map:existingIndexPathMapping];
 
 
     // Add existing cells that were not visible before
@@ -1191,10 +1190,12 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
         NSArray* visibleItems = self.indexPathsForVisibleItems;
         for (NSIndexPath* indexPath in indexPathsToBeRemoved) {
             if (! [visibleItems containsObject:indexPath]) {
+                NSLog(@"%@", indexPath);
                 [self removeAndEnqueueCellAtIndexPath:indexPath];
             }
         }
         for (JNWCollectionViewCell* cell in deletedCells) {
+            NSLog(@"b:%@", cell.indexPath);
             cell.alphaValue = 1;
             [self enqueueReusableCell:cell withIdentifier:cell.reuseIdentifier];
             [cell setHidden:YES];
