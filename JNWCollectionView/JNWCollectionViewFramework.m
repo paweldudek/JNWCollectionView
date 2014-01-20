@@ -632,16 +632,20 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
         [cell setHidden:NO];
     }
 
-    if ([self.selectedIndexes containsObject:indexPath]) {
-        NSLog(@"%@", indexPath);
-        cell.selected = YES;
-    } else {
-        cell.selected = NO;
-    }
+    [self updateSelectionStateOfCell:cell];
 
     self.visibleCellsMap[indexPath] = cell;
     
     return cell;
+}
+
+- (void)updateSelectionStateOfCell:(JNWCollectionViewCell *)cell
+{
+    if ([self.selectedIndexes containsObject:cell.indexPath]) {
+        cell.selected = YES;
+    } else {
+        cell.selected = NO;
+    }
 }
 
 - (void)updateCell:(JNWCollectionViewCell*)cell forIndexPath:(NSIndexPath*)indexPath
@@ -1145,7 +1149,7 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
     } completionHandler:NULL];
 
 
-
+    self.selectedIndexes = [self.selectedIndexes map:existingIndexPathMapping].mutableCopy;
     [self.data recalculateForcingLayoutInvalidation:YES];
 
     NSArray* visibleIndexPaths = self.indexPathsForVisibleItems;
@@ -1192,6 +1196,8 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
             if (! [visibleItems containsObject:indexPath]) {
                 NSLog(@"%@", indexPath);
                 [self removeAndEnqueueCellAtIndexPath:indexPath];
+            } else {
+                [self updateSelectionStateOfCell:[self cellForItemAtIndexPath:indexPath]];
             }
         }
         for (JNWCollectionViewCell* cell in deletedCells) {
