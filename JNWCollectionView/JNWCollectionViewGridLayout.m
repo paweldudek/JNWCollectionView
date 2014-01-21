@@ -113,7 +113,7 @@ static const CGSize JNWCollectionViewGridLayoutDefaultSize = (CGSize){ 44.f, 44.
 	NSUInteger numberOfSections = [self.collectionView numberOfSections];
 	
 	CGFloat totalPadding = totalWidth - (numberOfColumns * itemSize.width);
-	CGFloat minimumPadding = (numberOfColumns+1) * self.minimumInteritemSpacing;
+	CGFloat minimumPadding = (numberOfColumns-1) * self.minimumInteritemSpacing;
 	if (totalPadding < minimumPadding && numberOfColumns > 1) {
 		CGFloat extraPaddingNeeded = minimumPadding - totalPadding;
 		numberOfColumns -= ceil(extraPaddingNeeded / itemSize.width);
