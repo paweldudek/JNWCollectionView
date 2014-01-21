@@ -624,7 +624,13 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
         @"collectionView:cellForItemAtIndexPath: must return an instance or subclass of JNWCollectionViewCell.");
         return nil;
     }
-    [self updateCell:cell forIndexPath:indexPath];
+
+    // in case this happens within another animation, we disable animations while preparing
+    // the cell to avoid the cells animating from 0,0
+    [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
+        context.duration = 0;
+        [self updateCell:cell forIndexPath:indexPath];
+    } completionHandler:nil];
 
     if (cell.superview == nil) {
         [self.documentView addSubview:cell];
