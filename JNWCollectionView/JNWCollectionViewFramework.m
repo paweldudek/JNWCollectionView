@@ -268,13 +268,28 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
 
 - (void)reloadData {
 	_collectionViewFlags.wantsLayout = YES;
-	
+
+    NSArray *previouslySelectedIndexes = self.selectedIndexes.copy;
 	[self resetAllCells];
 		
 	[self.data recalculateForcingLayoutInvalidation:YES];
 	[self layoutDocumentView];
 	[self layoutCells];
 	[self layoutSupplementaryViews];
+
+    [self restoreSelectionIfPossible:previouslySelectedIndexes];
+}
+
+- (void)restoreSelectionIfPossible:(NSArray *)indexPaths
+{
+    for (NSIndexPath *indexPath in indexPaths) {
+        BOOL sectionOutOfBounds = indexPath.jnw_section >= self.data.sections.count;
+        if (sectionOutOfBounds) continue;
+        JNWCollectionViewSection *section = self.data.sections[(NSUInteger) indexPath.jnw_section];
+        BOOL itemOutOfBounds = indexPath.jnw_item >= section.numberOfItems;
+        if (itemOutOfBounds) continue;
+        [self selectItemAtIndexPath:indexPath animated:NO];
+    }
     if (!self.selectedIndexes.count) {
         [self selectItemAtIndexPath:[NSIndexPath jnw_indexPathForItem:0 inSection:0] animated:NO];
     }
