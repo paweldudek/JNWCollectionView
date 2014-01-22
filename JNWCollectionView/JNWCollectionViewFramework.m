@@ -1215,14 +1215,12 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
         NSArray* visibleItems = self.indexPathsForVisibleItems;
         for (NSIndexPath* indexPath in indexPathsToBeRemoved) {
             if (! [visibleItems containsObject:indexPath]) {
-                NSLog(@"%@", indexPath);
                 [self removeAndEnqueueCellAtIndexPath:indexPath];
             } else {
                 [self updateSelectionStateOfCell:[self cellForItemAtIndexPath:indexPath]];
             }
         }
         for (JNWCollectionViewCell* cell in deletedCells) {
-            NSLog(@"b:%@", cell.indexPath);
             cell.alphaValue = 1;
             [self enqueueReusableCell:cell withIdentifier:cell.reuseIdentifier];
             [cell setHidden:YES];
