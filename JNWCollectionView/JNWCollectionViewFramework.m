@@ -1026,6 +1026,18 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
 	[self selectItemAtIndexPath:toSelect atScrollPosition:JNWCollectionViewScrollPositionNearest animated:YES selectionType:JNWCollectionViewSelectionTypeExtending];
 }
 
+- (void)moveToEndOfDocument:(id)sender
+{
+    NSIndexPath *largestIndexPath = [self.collectionViewLayout indexPathForLastItem];
+    [self selectItemAtIndexPath:largestIndexPath atScrollPosition:JNWCollectionViewScrollPositionNearest animated:YES];
+}
+
+- (void)moveToBeginningOfDocument:(id)sender
+{
+    NSIndexPath *firstIndexPath = [self.collectionViewLayout indexPathForFirstItem];
+    [self selectItemAtIndexPath:firstIndexPath atScrollPosition:JNWCollectionViewScrollPositionNearest animated:YES];
+}
+
 - (void)selectAll:(id)sender {
 	[self selectItemsAtIndexPaths:[self allIndexPaths] animated:YES];
 }

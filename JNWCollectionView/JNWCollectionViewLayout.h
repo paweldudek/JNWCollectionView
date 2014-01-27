@@ -105,7 +105,9 @@ typedef NS_ENUM(NSInteger, JNWCollectionViewDirection) {
 - (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)newBounds;
 
 @property (nonatomic) NSEdgeInsets edgeInsets;
+- (NSIndexPath *)indexPathForLastItem;
 
+- (NSIndexPath *)indexPathForFirstItem;
 @end
 
 @interface JNWCollectionView()
