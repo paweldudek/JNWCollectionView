@@ -1102,15 +1102,8 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
     }
 
     self.isAnimating = YES;
-    NSMutableSet *updatedIndexPaths = [NSMutableSet setWithArray:self.insertedItems];
-    [updatedIndexPaths intersectSet:[NSSet setWithArray:self.deletedItems]];
-
-    NSMutableSet *insertedIndexPathsSet = [NSMutableSet setWithArray:self.insertedItems];
-    [insertedIndexPathsSet minusSet:updatedIndexPaths];
-    NSArray* insertedIndexPaths = [insertedIndexPathsSet.allObjects sortedArrayUsingSelector:@selector(compare:)];
-    NSMutableSet *deletedIndexPathsSet = [NSMutableSet setWithArray:self.deletedItems];
-    [deletedIndexPathsSet minusSet:updatedIndexPaths];
-    NSArray* deletedIndexPaths = deletedIndexPathsSet.allObjects;
+    NSArray* insertedIndexPaths = [self.insertedItems sortedArrayUsingSelector:@selector(compare:)];
+    NSArray* deletedIndexPaths = self.deletedItems;
 
     // TODO: Use IndexSet?
     NSIndexPath*(^existingIndexPathMapping)(NSIndexPath*) = ^NSIndexPath*(NSIndexPath* oldIndexPath) {
@@ -1231,8 +1224,6 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
         }
 
     } completionHandler:^ {
-        [self reloadItemsAtIndexPaths:updatedIndexPaths.allObjects];
-
         NSArray* visibleItems = self.indexPathsForVisibleItems;
         for (NSIndexPath* indexPath in indexPathsToBeRemoved) {
             if (! [visibleItems containsObject:indexPath]) {
