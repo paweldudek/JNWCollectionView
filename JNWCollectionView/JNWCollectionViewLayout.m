@@ -80,4 +80,15 @@
 	return YES;
 }
 
+- (NSIndexPath *)indexPathForLastItem
+{
+    NSInteger section = self.collectionView.numberOfSections - 1;
+    NSInteger item = [self.collectionView numberOfItemsInSection:section] - 1;
+    return [NSIndexPath jnw_indexPathForItem:item inSection:section];
+}
+
+- (NSIndexPath *)indexPathForFirstItem
+{
+    return [NSIndexPath jnw_indexPathForItem:0 inSection:0];
+}
 @end
