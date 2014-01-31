@@ -987,6 +987,32 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
 	}
 }
 
+- (void)keyDown:(NSEvent *)event
+{
+    if ([event.characters rangeOfCharacterFromSet:[NSCharacterSet characterSetWithCharactersInString:@"jkhl0G"]].location != NSNotFound) {
+        [self interpretKeyEvents:@[event]];
+    } else {
+        [super keyDown:event];
+    }
+}
+
+- (void)insertText:(id)insertString
+{
+    if ([insertString hasPrefix:@"j"]) {
+        [self moveDown:self];
+    } else if ([insertString hasPrefix:@"k"]) {
+        [self moveUp:self];
+    } else if ([insertString hasPrefix:@"h"]) {
+        [self moveLeft:self];
+    } else if ([insertString hasPrefix:@"l"]) {
+        [self moveRight:self];
+    } else if ([insertString hasPrefix:@"0"]) {
+        [self moveToBeginningOfDocument:self];
+    } else if ([insertString hasPrefix:@"G"]) {
+        [self moveToEndOfDocument:self];
+    }
+}
+
 - (void)moveUp:(id)sender {
 	NSIndexPath *toSelect = [self.collectionViewLayout indexPathForNextItemInDirection:JNWCollectionViewDirectionUp currentIndexPath:[self indexPathForSelectedItem]];
 	[self selectItemAtIndexPath:toSelect atScrollPosition:JNWCollectionViewScrollPositionNearest animated:YES];}
