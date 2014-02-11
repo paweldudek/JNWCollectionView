@@ -989,8 +989,20 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
 
 - (void)keyDown:(NSEvent *)event
 {
-    if ([event.characters rangeOfCharacterFromSet:[NSCharacterSet characterSetWithCharactersInString:@"jkhl0G"]].location != NSNotFound) {
-        [self interpretKeyEvents:@[event]];
+    NSString *characters = [event charactersIgnoringModifiers];
+    if (characters.length) {
+        BOOL isVimShortcut = [characters rangeOfCharacterFromSet:[NSCharacterSet characterSetWithCharactersInString:@"jkhl0G"]].location != NSNotFound;
+        unichar character = [characters characterAtIndex:0];
+        BOOL isArrowKey = character == NSUpArrowFunctionKey || character == NSDownArrowFunctionKey || character == NSLeftArrowFunctionKey || character == NSRightArrowFunctionKey;
+        if (isVimShortcut || isArrowKey) {
+            [self interpretKeyEvents:@[event]];
+        } else if (character == NSHomeFunctionKey) {
+            [self moveToBeginningOfDocument:self];
+        } else if (character == NSEndFunctionKey) {
+            [self moveToEndOfDocument:self];
+        } else {
+            [super keyDown:event];
+        }
     } else {
         [super keyDown:event];
     }
