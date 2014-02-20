@@ -114,12 +114,12 @@ typedef NS_ENUM(NSInteger, JNWCollectionViewScrollPosition) {
 @interface JNWCollectionView : JNWScrollView
 
 // The delegate for the collection view.
-@property (nonatomic, unsafe_unretained) id<JNWCollectionViewDelegate> delegate;
+@property (nonatomic, weak) id<JNWCollectionViewDelegate> delegate;
 
 // The data source for the collection view.
 //
 // Required.
-@property (nonatomic, unsafe_unretained) id<JNWCollectionViewDataSource> dataSource;
+@property (nonatomic, weak) id<JNWCollectionViewDataSource> dataSource;
 
 // Calling this method will cause the collection view to clean up all the views and
 // recalculate item info. It will then perform a layout pass.
