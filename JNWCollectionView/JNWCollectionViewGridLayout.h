@@ -28,10 +28,10 @@ extern NSString * const JNWCollectionViewGridLayoutFooterKind;
 
 @optional
 
-// Asks the delegate for the size of all the items in the grid layout.
-//
-// If this method is implemented, `itemSize` will be set to returned values.
-- (CGSize)sizeForItemInCollectionView:(JNWCollectionView *)collectionView;
+// We ask this delegate method for the size of an item.
+// ATTENTION: This does not support variations in width, only in height!
+// itemSize has to be set regardless. This determines the number of columns laid out per row.
+- (CGSize)collectionView:(JNWCollectionView *)collectionView sizeForItemAtIndexPath:(NSIndexPath *)indexPath;
 
 // Asks the delegate for the height of the header or footer in the specified section.
 //
