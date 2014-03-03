@@ -106,6 +106,8 @@ typedef NS_ENUM(NSInteger, JNWCollectionViewScrollPosition) {
 // Tells the delegate that the specified index path has been scrolled to.
 - (void)collectionView:(JNWCollectionView *)collectionView didScrollToItemAtIndexPath:(NSIndexPath *)indexPath;
 
+- (void)collectionView:(JNWCollectionView *)collectionView didEndDisplayingCell:(JNWCollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath;
+
 @end
 
 #pragma mark Reloading and customizing
