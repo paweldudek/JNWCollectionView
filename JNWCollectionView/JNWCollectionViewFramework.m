@@ -284,11 +284,12 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
 
 - (void)restoreSelectionIfPossible:(NSArray *)indexPaths
 {
+    [self deselectItemsAtIndexPaths:indexPaths animated:NO];
     for (NSIndexPath *indexPath in indexPaths) {
-        BOOL sectionOutOfBounds = indexPath.jnw_section >= self.data.sections.count;
+        BOOL sectionOutOfBounds = indexPath.jnw_section >= self.data.sections.count || indexPath.jnw_section < 0;
         if (sectionOutOfBounds) continue;
         JNWCollectionViewSection *section = self.data.sections[(NSUInteger) indexPath.jnw_section];
-        BOOL itemOutOfBounds = indexPath.jnw_item >= section.numberOfItems;
+        BOOL itemOutOfBounds = indexPath.jnw_item >= section.numberOfItems || indexPath.jnw_item < 0;
         if (itemOutOfBounds) continue;
         [self selectItemAtIndexPath:indexPath animated:NO];
     }
@@ -1227,6 +1228,7 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
 
     self.selectedIndexes = [self.selectedIndexes map:existingIndexPathMapping].mutableCopy;
     [self.data recalculateForcingLayoutInvalidation:YES];
+    [self restoreSelectionIfPossible:self.selectedIndexes.copy];
 
     NSArray* visibleIndexPaths = self.indexPathsForVisibleItems;
 
