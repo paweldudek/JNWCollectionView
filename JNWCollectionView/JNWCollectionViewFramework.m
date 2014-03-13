@@ -574,7 +574,8 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
 		return;
 	
 	NSView *documentView = self.documentView;
-	documentView.frameSize = self.data.encompassingSize;
+    CGSize size = self.data.encompassingSize;
+    documentView.frameSize = NSMakeSize(round(size.width), round(size.height));
 }
 
 - (CGSize)visibleSize {
