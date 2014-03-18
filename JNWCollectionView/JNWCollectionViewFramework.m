@@ -1212,15 +1212,16 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
         NSInteger numberOfItemsToBeInsertedAtEnd = oldLastVisibleIndexPath.jnw_item - existingIndexPathMapping(oldLastVisibleIndexPath).jnw_item;
         if (numberOfItemsToBeInsertedAtEnd > 0) {
 
-            for (NSUInteger i = 1; i <= numberOfItemsToBeInsertedAtEnd; i++) {
+            for (NSUInteger i = 1; numberOfItemsToBeInsertedAtEnd > 0 && oldLastVisibleIndexPath.jnw_item+i < [self.data numberOfItemsInSection:0]; i++) {
                 NSIndexPath* oldIndexPath = [NSIndexPath jnw_indexPathForItem:oldLastVisibleIndexPath.jnw_item+i inSection:0];
 
-                if (oldIndexPath.jnw_item < [self.data numberOfItemsInSection:0]) {
-                        context.duration = 0;
-                        NSIndexPath* indexPath = existingIndexPathMapping(oldIndexPath);
-                        JNWCollectionViewCell* cell = [self addCellForIndexPath:indexPath];
-                        [self updateLayoutAttributesForCell:cell indexPath:oldIndexPath];
-                        [newVisibleItems addObject:indexPath];
+                if (![deletedIndexPaths containsObject:oldIndexPath]) {
+                    context.duration = 0;
+                    NSIndexPath* indexPath = existingIndexPathMapping(oldIndexPath);
+                    JNWCollectionViewCell* cell = [self addCellForIndexPath:indexPath];
+                    [self updateLayoutAttributesForCell:cell indexPath:oldIndexPath];
+                    [newVisibleItems addObject:indexPath];
+                    numberOfItemsToBeInsertedAtEnd--;
                 }
             }
         }
