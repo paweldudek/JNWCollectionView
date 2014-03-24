@@ -235,6 +235,8 @@ typedef NS_ENUM(NSInteger, JNWCollectionViewScrollPosition) {
 
 @property (nonatomic) BOOL tabModifiesSelection;
 
+@property (nonatomic) BOOL selectionCanBeEmpty;
+
 // Scrolls the collection view to the item at the specified path, optionally animated. The scroll position determines
 // where the item is positioned on the screen.
 - (void)scrollToItemAtIndexPath:(NSIndexPath *)indexPath atScrollPosition:(JNWCollectionViewScrollPosition)scrollPosition animated:(BOOL)animated;

@@ -293,6 +293,9 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
         if (itemOutOfBounds) continue;
         [self selectItemAtIndexPath:indexPath animated:NO];
     }
+    if (!self.selectedIndexes.count && !self.selectionCanBeEmpty) {
+        [self selectItemAtIndexPath:[NSIndexPath jnw_indexPathForItem:0 inSection:0] animated:NO];
+    }
 }
 
 - (void)resetAllCells {
