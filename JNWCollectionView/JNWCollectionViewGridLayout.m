@@ -161,39 +161,9 @@ static const CGSize JNWCollectionViewGridLayoutDefaultSize = (CGSize){ 44.f, 44.
 			sectionInfo.itemInfo[item].origin = origin;
 		}
 
-//        CGFloat heightOfRowsInSection = 0;
-//        for (NSInteger row = 0; row < ceil((float)numberOfItems / numberOfColumns); row++) {
-//            CGFloat rowHeight = 0;
-//            if (useDelegateSize) {
-//                for (NSInteger item = row * numberOfColumns; item < numberOfItems && item < (row + 1) * numberOfColumns; item++) {
-//                    CGSize size = [self.delegate collectionView:self.collectionView sizeForItemAtIndexPath:[NSIndexPath jnw_indexPathForItem:item inSection:section]];
-//                    rowHeight = fmax(rowHeight, size.height);
-//                }
-//            } else {
-//                rowHeight = itemSize.height;
-//            }
-//
-//            CGFloat originX = 0;
-//            for (NSInteger column = 0; column < numberOfColumns; column++) {
-//                NSInteger item = row * numberOfColumns + column;
-//                if (item >= numberOfItems) break;
-//
-//                NSIndexPath *indexPath = [NSIndexPath jnw_indexPathForItem:item inSection:section];
-//                CGSize size = useDelegateSize ? [self.delegate collectionView:self.collectionView sizeForItemAtIndexPath:indexPath] : itemSize;
-//                CGPoint origin = CGPointZero;
-//                origin.x = leftInset + originX; //column * (size.width + self.itemPadding);
-//                origin.y = heightOfRowsInSection + rowHeight - size.height;
-//                sectionInfo.itemInfo[item].origin = origin;
-//                sectionInfo.itemInfo[item].size = size;
-//                originX += size.width + self.itemPadding;
-//            }
-//            heightOfRowsInSection += rowHeight + self.minimumLineSpacing;
-//        }
-		
         NSUInteger numberOfRowsInSection = (NSUInteger)ceilf((float)numberOfItems / (float)numberOfColumns);
         CGFloat totalVerticalSpacing = fmax(self.minimumLineSpacing*(numberOfRowsInSection-1), 0); // In case numberOfRowsInSection is 0
         sectionInfo.height = itemSize.height * numberOfRowsInSection + totalVerticalSpacing;
-//        sectionInfo.height = heightOfRowsInSection + totalVerticalSpacing;
 		totalHeight += sectionInfo.height + footerHeight + headerHeight;
 		[self.sections addObject:sectionInfo];
 	}
@@ -206,7 +176,6 @@ static const CGSize JNWCollectionViewGridLayoutDefaultSize = (CGSize){ 44.f, 44.
 	
 	JNWCollectionViewLayoutAttributes *attributes = [[JNWCollectionViewLayoutAttributes alloc] init];
     attributes.frame = CGRectMake(itemInfo.origin.x, itemInfo.origin.y + offset, self.itemSize.width, self.itemSize.height);
-//    attributes.frame = CGRectMake(itemInfo.origin.x, itemInfo.origin.y + offset, itemInfo.size.width, itemInfo.size.height);
 	attributes.alpha = 1.f;
 	return attributes;
 }
@@ -257,22 +226,30 @@ static const CGSize JNWCollectionViewGridLayoutDefaultSize = (CGSize){ 44.f, 44.
 
 - (NSIndexPath *)indexPathForNextItemInDirection:(JNWCollectionViewDirection)direction currentIndexPath:(NSIndexPath *)currentIndexPath {
 	NSIndexPath *newIndexPath = currentIndexPath;
-	
-	if (direction == JNWCollectionViewDirectionRight) {
+
+    if (direction == JNWCollectionViewDirectionRight) {
 		newIndexPath = [self.collectionView indexPathForNextSelectableItemAfterIndexPath:currentIndexPath];
 	} else if (direction == JNWCollectionViewDirectionLeft) {
 		newIndexPath = [self.collectionView indexPathForNextSelectableItemBeforeIndexPath:currentIndexPath];
 	} else if (direction == JNWCollectionViewDirectionUp) {
-		CGPoint origin = [self.collectionView rectForItemAtIndexPath:currentIndexPath].origin;
-		// Bump the origin up to the cell directly above this one.
-		origin.y -= 1; // TODO: Use padding here when implemented.
-		newIndexPath = [self.collectionView indexPathForItemAtPoint:origin];
+        if (currentIndexPath) {
+            CGPoint origin = [self.collectionView rectForItemAtIndexPath:currentIndexPath].origin;
+            // Bump the origin up to the cell directly above this one.
+            origin.y -= 1; // TODO: Use padding here when implemented.
+            newIndexPath = [self.collectionView indexPathForItemAtPoint:origin];
+        } else {
+            newIndexPath = [self.collectionView indexPathForNextSelectableItemBeforeIndexPath:nil];
+        }
 	} else if (direction == JNWCollectionViewDirectionDown) {
-		CGRect frame = [self.collectionView rectForItemAtIndexPath:currentIndexPath];
-		CGPoint origin = frame.origin;
-		// Bump the origin down to the cell directly below this one.
-		origin.y += frame.size.height + 1; // TODO: Use padding here when implemented.
-		newIndexPath = [self.collectionView indexPathForItemAtPoint:origin];
+        if (currentIndexPath) {
+            CGRect frame = [self.collectionView rectForItemAtIndexPath:currentIndexPath];
+            CGPoint origin = frame.origin;
+            // Bump the origin down to the cell directly below this one.
+            origin.y += frame.size.height + 1; // TODO: Use padding here when implemented.
+            newIndexPath = [self.collectionView indexPathForItemAtPoint:origin];
+        } else {
+            newIndexPath = [self.collectionView indexPathForNextSelectableItemAfterIndexPath:nil];
+        }
 	}
 	
 	if (newIndexPath == nil && (direction == JNWCollectionViewDirectionUp || direction == JNWCollectionViewDirectionDown)) {

@@ -293,9 +293,6 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
         if (itemOutOfBounds) continue;
         [self selectItemAtIndexPath:indexPath animated:NO];
     }
-    if (!self.selectedIndexes.count) {
-        [self selectItemAtIndexPath:[NSIndexPath jnw_indexPathForItem:0 inSection:0] animated:NO];
-    }
 }
 
 - (void)resetAllCells {
@@ -874,27 +871,29 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
 }
 
 - (NSIndexPath *)indexPathForNextSelectableItemAfterIndexPath:(NSIndexPath *)indexPath {
-	if (indexPath.jnw_item + 1 >= [self.data.sections[indexPath.jnw_section] numberOfItems]) {
-		// Jump up to the next section
-		NSIndexPath *newIndexPath = [NSIndexPath jnw_indexPathForItem:0 inSection:indexPath.jnw_section + 1];
-		if ([self validateIndexPath:newIndexPath])
-			return newIndexPath;
+    NSIndexPath *newIndexPath;
+    if (!indexPath) {
+        newIndexPath = [NSIndexPath jnw_indexPathForItem:0 inSection:0];
+    } else if (indexPath.jnw_item + 1 >= [self.data.sections[(NSUInteger) indexPath.jnw_section] numberOfItems]) {
+		newIndexPath = [NSIndexPath jnw_indexPathForItem:0 inSection:indexPath.jnw_section + 1];
 	} else {
-		return [NSIndexPath jnw_indexPathForItem:indexPath.jnw_item + 1 inSection:indexPath.jnw_section];
+		newIndexPath = [NSIndexPath jnw_indexPathForItem:indexPath.jnw_item + 1 inSection:indexPath.jnw_section];
 	}
-	return nil;
+    return [self validateIndexPath:newIndexPath] ? newIndexPath : nil;
 }
 
 - (NSIndexPath *)indexPathForNextSelectableItemBeforeIndexPath:(NSIndexPath *)indexPath {
-	if (indexPath.jnw_item - 1 >= 0) {
-		return [NSIndexPath jnw_indexPathForItem:indexPath.jnw_item - 1 inSection:indexPath.jnw_section];
+    NSIndexPath *newIndexPath;
+    if (!indexPath) {
+        NSUInteger lastSectionIdx = (NSUInteger) (self.data.numberOfSections-1);
+        newIndexPath = [NSIndexPath jnw_indexPathForItem:[self.data.sections[lastSectionIdx] numberOfItems]-1 inSection:lastSectionIdx];
+    } else if (indexPath.jnw_item - 1 >= 0) {
+		newIndexPath = [NSIndexPath jnw_indexPathForItem:indexPath.jnw_item - 1 inSection:indexPath.jnw_section];
 	} else if(indexPath.jnw_section - 1 >= 0 && self.data.sections.count) {
-		NSInteger numberOfItems = [self.data.sections[indexPath.jnw_section - 1] numberOfItems];
-		NSIndexPath *newIndexPath = [NSIndexPath jnw_indexPathForItem:numberOfItems - 1 inSection:indexPath.jnw_section - 1];
-		if ([self validateIndexPath:newIndexPath])
-			return newIndexPath;
+		NSInteger numberOfItems = [self.data.sections[(NSUInteger) (indexPath.jnw_section - 1)] numberOfItems];
+		newIndexPath = [NSIndexPath jnw_indexPathForItem:numberOfItems - 1 inSection:indexPath.jnw_section - 1];
 	}
-	return nil;
+    return [self validateIndexPath:newIndexPath] ? newIndexPath : nil;
 }
 
 - (void)selectItemAtIndexPath:(NSIndexPath *)indexPath
@@ -1001,7 +1000,8 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
         BOOL isVimShortcut = [characters rangeOfCharacterFromSet:[NSCharacterSet characterSetWithCharactersInString:@"jkhl0G"]].location != NSNotFound;
         unichar character = [characters characterAtIndex:0];
         BOOL isArrowKey = character == NSUpArrowFunctionKey || character == NSDownArrowFunctionKey || character == NSLeftArrowFunctionKey || character == NSRightArrowFunctionKey;
-        if (isVimShortcut || isArrowKey) {
+        BOOL isTabKey = self.tabModifiesSelection && (character == NSTabCharacter || character == NSBackTabCharacter);
+        if (isVimShortcut || isArrowKey || isTabKey) {
             [self interpretKeyEvents:@[event]];
         } else if (character == NSHomeFunctionKey) {
             [self moveToBeginningOfDocument:self];
@@ -1070,6 +1070,16 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
 //	NSIndexPath *toSelect = [self.collectionViewLayout indexPathForNextItemInDirection:JNWCollectionViewDirectionLeft currentIndexPath:[self indexPathForSelectedItem]];
 //	[self selectItemAtIndexPath:toSelect atScrollPosition:JNWCollectionViewScrollPositionNearest animated:YES selectionType:JNWCollectionViewSelectionTypeExtending];
 //}
+
+- (void)insertTab:(id)sender
+{
+    [self moveRight:self];
+}
+
+- (void)insertBacktab:(id)sender
+{
+    [self moveLeft:self];
+}
 
 - (void)moveToEndOfDocument:(id)sender
 {
