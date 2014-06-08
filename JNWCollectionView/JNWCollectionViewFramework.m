@@ -1190,7 +1190,7 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
 
 
     NSDictionary* dictionary = self.visibleCellsMap;
-    self.visibleCellsMap = [[dictionary dictionaryByMappingKeys:existingIndexPathMapping] mutableCopy];
+    self.visibleCellsMap = [[dictionary uint_dictionaryByMappingKeys:existingIndexPathMapping] mutableCopy];
 
 
 
