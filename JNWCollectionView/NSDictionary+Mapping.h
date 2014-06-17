@@ -7,5 +7,5 @@
 @interface NSDictionary (Mapping)
 
 
-- (NSDictionary*)dictionaryByMappingKeys:(id (^)(id))block;
+- (NSDictionary*)uint_dictionaryByMappingKeys:(id (^)(id))block;
 @end
