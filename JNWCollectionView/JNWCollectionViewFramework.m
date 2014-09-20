@@ -113,6 +113,8 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
 
     collectionView.insertedItems = [NSMutableArray array];
     collectionView.deletedItems = [NSMutableArray array];
+
+    [[NSNotificationCenter defaultCenter] addObserver:collectionView selector:@selector(reloadData) name:NSPreferredScrollerStyleDidChangeNotification object:nil];
 }
 
 - (id)initWithFrame:(NSRect)frameRect {
@@ -128,6 +130,12 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
 	JNWCollectionViewCommonInit(self);
 	return self;
 }
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 
 #pragma mark Delegate and data source
 
