@@ -102,6 +102,12 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
 	collectionView.allowsSelection = YES;
 	
 	collectionView.backgroundColor = NSColor.clearColor;
+    [collectionView.contentView setPostsBoundsChangedNotifications:YES];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:collectionView
+                                             selector:@selector(contentViewBoundsDidChange)
+                                                 name:NSViewBoundsDidChangeNotification
+                                               object:collectionView.contentView];
 }
 
 - (id)initWithFrame:(NSRect)frameRect {
@@ -498,40 +504,46 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
 	return cell.indexPath;
 }
 
+#pragma mark Handling Content Bounds Change
+
+- (void)contentViewBoundsDidChange {
+    if (!CGSizeEqualToSize(self.visibleSize, self.data.encompassingSize)) {
+        [self layoutDocumentView];
+    }
+    
+    if (CGRectEqualToRect(self.bounds, _lastDrawnBounds)) {
+        [self layoutCells];
+        [self layoutSupplementaryViews];
+    } else {
+        // Calling recalculate on our data will update the bounds needed for the collection
+        // view, and optionally prepare the layout once again if the layout subclass decides
+        // it needs a recalculation.
+        [self.data recalculate];
+        
+        BOOL wantsInvalidation = [self.collectionViewLayout shouldInvalidateLayoutForBoundsChange:self.bounds];
+        if (wantsInvalidation && _collectionViewFlags.wantsLayout) {
+            [self resetAllCells];
+        }
+        
+        // Check once more whether or not the document view needs to be resized.
+        // If there are a different number of items, the encompassing size might have changed.
+        if (!CGSizeEqualToSize(self.visibleSize, self.data.encompassingSize)) {
+            [self layoutDocumentView];
+        }
+        
+        [self layoutCellsWithRedraw:YES];
+        [self layoutSupplementaryViewsWithRedraw:YES];
+        
+        _lastDrawnBounds = self.bounds;
+    }
+}
+
 #pragma mark Layout
 
 - (void)layout {
-	[super layout];
-	
-	if (!CGSizeEqualToSize(self.visibleSize, self.data.encompassingSize)) {
-		[self layoutDocumentView];
-	}
-	
-	if (CGRectEqualToRect(self.bounds, _lastDrawnBounds)) {
-		[self layoutCells];
-		[self layoutSupplementaryViews];
-	} else {
-		// Calling recalculate on our data will update the bounds needed for the collection
-		// view, and optionally prepare the layout once again if the layout subclass decides
-		// it needs a recalculation.
-		[self.data recalculate];
-
-		BOOL wantsInvalidation = [self.collectionViewLayout shouldInvalidateLayoutForBoundsChange:self.bounds];
-		if (wantsInvalidation && _collectionViewFlags.wantsLayout) {
-			[self resetAllCells];
-		}
-		
-		// Check once more whether or not the document view needs to be resized.
-		// If there are a different number of items, the encompassing size might have changed.
-		if (!CGSizeEqualToSize(self.visibleSize, self.data.encompassingSize)) {
-			[self layoutDocumentView];
-		}
-		
-		[self layoutCellsWithRedraw:YES];
-		[self layoutSupplementaryViewsWithRedraw:YES];
-		
-		_lastDrawnBounds = self.bounds;
-	}
+    [super layout];
+    
+    [self contentViewBoundsDidChange];
 }
 
 - (void)layoutDocumentView {
