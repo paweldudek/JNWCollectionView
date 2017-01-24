@@ -6,7 +6,6 @@
 
 @interface NSSet (Map)
 
-- (NSSet*)map:(id (^)(id))block;
+- (NSSet*)jnw_map:(id (^)(id))block;
 
-- (NSSet*)setByRemovingObjectsFromArray:(NSArray*)array;
 @end

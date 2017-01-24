@@ -7,8 +7,7 @@
 
 @implementation NSSet (Map)
 
-
-- (NSSet*)map:(id (^)(id))block
+- (NSSet*)jnw_map:(id (^)(id))block
 {
     NSMutableSet* result = [NSMutableSet set];
     for (id obj in self) {
@@ -17,10 +16,4 @@
     return result;
 }
 
-- (NSSet*)setByRemovingObjectsFromArray:(NSArray*)array
-{
-    NSMutableSet* result = [self mutableCopy];
-    [result minusSet:[NSSet setWithArray:array]];
-    return result;
-}
 @end

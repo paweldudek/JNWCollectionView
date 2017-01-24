@@ -7,13 +7,7 @@
 
 @implementation NSArray (Mapping)
 
-
-- (id)firstObject
-{
-    return self.count ? self[0] : nil;
-}
-
-- (NSArray*)map:(id (^)(id))block
+- (NSArray*)jnw_map:(id (^)(id))block
 {
     NSMutableArray* array = [NSMutableArray arrayWithCapacity:self.count];
     for(id item in self) {
@@ -24,4 +18,5 @@
     }
     return array;
 }
+
 @end

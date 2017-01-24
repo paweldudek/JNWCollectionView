@@ -6,6 +6,6 @@
 
 @interface NSDictionary (Mapping)
 
+- (NSDictionary*)jnw_dictionaryByMappingKeys:(id (^)(id))block;
 
-- (NSDictionary*)uint_dictionaryByMappingKeys:(id (^)(id))block;
 @end

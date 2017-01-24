@@ -6,6 +6,6 @@
 
 @interface NSArray (Mapping)
 
-- (id)firstObject;
-- (NSArray*)map:(id (^)(id))block;
+- (NSArray*)jnw_map:(id (^)(id))block;
+
 @end

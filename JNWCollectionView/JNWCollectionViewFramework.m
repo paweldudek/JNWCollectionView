@@ -1207,9 +1207,8 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
     };
 
 
-    NSArray* deletedCells = [deletedIndexPaths map:^id (id indexPath)
-    {
-        JNWCollectionViewCell* cell = [self cellForItemAtIndexPath:indexPath];
+    NSArray* deletedCells = [deletedIndexPaths jnw_map:^id(id indexPath) {
+        JNWCollectionViewCell *cell = [self cellForItemAtIndexPath:indexPath];
         [self.visibleCellsMap removeObjectForKey:indexPath];
         return cell;
     }];
@@ -1217,14 +1216,14 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
 
 
     NSDictionary* dictionary = self.visibleCellsMap;
-    self.visibleCellsMap = [[dictionary uint_dictionaryByMappingKeys:existingIndexPathMapping] mutableCopy];
+    self.visibleCellsMap = [[dictionary jnw_dictionaryByMappingKeys:existingIndexPathMapping] mutableCopy];
 
 
 
     NSArray* sortedVisibleIndexPaths = [self.indexPathsForVisibleItems sortedArrayUsingSelector:@selector(compare:)] ;
     NSMutableSet *visibleIndexPathsWithoutDeletions = [NSMutableSet setWithArray:sortedVisibleIndexPaths];
     [visibleIndexPathsWithoutDeletions minusSet:[NSSet setWithArray:deletedIndexPaths]];
-    NSSet *oldVisibleItems = [visibleIndexPathsWithoutDeletions map:existingIndexPathMapping];
+    NSSet *oldVisibleItems = [visibleIndexPathsWithoutDeletions jnw_map:existingIndexPathMapping];
 
 
     // Add existing cells that were not visible before
@@ -1268,7 +1267,7 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
     } completionHandler:NULL];
 
 
-    self.selectedIndexes = [self.selectedIndexes map:existingIndexPathMapping].mutableCopy;
+    self.selectedIndexes = [self.selectedIndexes jnw_map:existingIndexPathMapping].mutableCopy;
     [self.data recalculateForcingLayoutInvalidation:YES];
     [self restoreSelectionIfPossible:self.selectedIndexes.copy];
 
