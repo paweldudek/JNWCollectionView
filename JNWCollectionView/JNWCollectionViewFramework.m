@@ -29,6 +29,9 @@
 #import "NSSet+Map.h"
 #import "NSDictionary+Mapping.h"
 #import "NSArray+Mapping.h"
+#import "JNWCollectionViewCell.h"
+#import "JNWCollectionViewReusableView.h"
+#import "NSIndexPath+JNWAdditions.h"
 
 
 typedef NS_ENUM(NSInteger, JNWCollectionViewSelectionType) {
@@ -504,7 +507,7 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
 			break;
 	}
 	
-	[self.clipView scrollRectToVisible:rect animated:animated];
+	[self.contentView scrollRectToVisible:rect];
 	
 	if (_collectionViewFlags.delegateDidScroll) {
 		[self.delegate collectionView:self didScrollToItemAtIndexPath:indexPath];

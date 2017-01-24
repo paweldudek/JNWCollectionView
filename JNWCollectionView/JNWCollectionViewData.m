@@ -19,8 +19,8 @@
 
 #import "JNWCollectionViewData.h"
 #import "JNWCollectionView+Private.h"
-#import "JNWCollectionViewFramework.h"
 #import "JNWCollectionViewLayout.h"
+#import "NSIndexPath+JNWAdditions.h"
 
 @interface JNWCollectionViewData()
 @property (nonatomic, weak) JNWCollectionView *collectionView;

@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 AppJon. All rights reserved.
 //
 
-#import <JNWCollectionView/JNWCollectionView.h>
+#import <JNWCollectionView/JNWCollectionViewCell.h>
 
 @interface GridCell : JNWCollectionViewCell
 

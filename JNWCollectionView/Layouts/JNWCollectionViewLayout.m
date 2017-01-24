@@ -18,6 +18,7 @@
  */
 
 #import "JNWCollectionViewLayout.h"
+#import "NSIndexPath+JNWAdditions.h"
 
 @interface JNWCollectionViewLayout()
 @property (nonatomic, weak, readwrite) JNWCollectionView *collectionView;

@@ -8,6 +8,3 @@
 	path = external/Specta
 	url = https://github.com/petejkim/specta.git
 
-[submodule "external/JNWScrollView"]
-	path = external/JNWScrollView
-	url = https://github.com/jwilling/JNWScrollView.git

@@ -7,7 +7,8 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <JNWCollectionView/JNWCollectionView.h>
+#import <JNWCollectionView/JNWCollectionViewFramework.h>
+#import <JNWCollectionView/JNWCollectionViewGridLayout.h>
 
 @interface GridDemoViewController : NSViewController <JNWCollectionViewDataSource, JNWCollectionViewGridLayoutDelegate>
 

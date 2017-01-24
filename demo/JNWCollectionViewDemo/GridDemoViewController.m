@@ -6,7 +6,6 @@
 //  Copyright (c) 2013 AppJon. All rights reserved.
 //
 
-#import <JNWCollectionView/JNWCollectionView.h>
 #import "GridDemoViewController.h"
 #import "GridCell.h"
 

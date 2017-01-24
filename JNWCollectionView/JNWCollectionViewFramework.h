@@ -18,10 +18,6 @@
  */
 
 #import <Cocoa/Cocoa.h>
-#import "JNWCollectionViewCell.h"
-#import "JNWCollectionViewReusableView.h"
-#import "NSIndexPath+JNWAdditions.h"
-#import "JNWScrollView.h"
 
 typedef NS_ENUM(NSInteger, JNWCollectionViewScrollPosition) {
 	JNWCollectionViewScrollPositionNone, // does not scroll, only selects
@@ -32,6 +28,8 @@ typedef NS_ENUM(NSInteger, JNWCollectionViewScrollPosition) {
 };
 
 @class JNWCollectionView;
+@class JNWCollectionViewCell;
+@class JNWCollectionViewReusableView;
 
 #pragma mark - Data Source Protocol
 
@@ -113,7 +111,7 @@ typedef NS_ENUM(NSInteger, JNWCollectionViewScrollPosition) {
 #pragma mark Reloading and customizing
 
 @class JNWCollectionViewLayout;
-@interface JNWCollectionView : JNWScrollView
+@interface JNWCollectionView : NSScrollView
 
 // The delegate for the collection view.
 @property (nonatomic, weak) id<JNWCollectionViewDelegate> delegate;

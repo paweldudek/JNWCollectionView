@@ -18,6 +18,7 @@
  */
 
 #import "JNWCollectionViewListLayout.h"
+#import "NSIndexPath+JNWAdditions.h"
 
 typedef struct {
 	CGFloat height;

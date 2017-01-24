@@ -7,7 +7,8 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <JNWCollectionView/JNWCollectionView.h>
+#import <JNWCollectionView/JNWCollectionViewFramework.h>
+#import <JNWCollectionView/JNWCollectionViewListLayout.h>
 
 @interface ListDemoViewController : NSViewController <JNWCollectionViewDataSource, JNWCollectionViewListLayoutDelegate>
 

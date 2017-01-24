@@ -17,8 +17,8 @@
  IN THE SOFTWARE.
  */
 
-#import <JNWCollectionView/JNWCollectionViewGridLayout.h>
 #import "JNWCollectionViewGridLayout.h"
+#import "NSIndexPath+JNWAdditions.h"
 
 typedef struct {
 	CGPoint origin;
