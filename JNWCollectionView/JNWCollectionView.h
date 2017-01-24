@@ -18,10 +18,10 @@
  */
 
 #import <Cocoa/Cocoa.h>
-#import "JNWCollectionViewFramework.h"
-#import "JNWCollectionViewCell.h"
-#import "JNWCollectionViewReusableView.h"
-#import "JNWCollectionViewLayout.h"
-#import "JNWCollectionViewListLayout.h"
-#import "JNWCollectionViewGridLayout.h"
-#import "NSIndexPath+JNWAdditions.h"
+#import <JNWCollectionView/JNWCollectionViewFramework.h>
+#import <JNWCollectionView/JNWCollectionViewCell.h>
+#import <JNWCollectionView/JNWCollectionViewReusableView.h>
+#import <JNWCollectionView/JNWCollectionViewLayout.h>
+#import <JNWCollectionView/JNWCollectionViewListLayout.h>
+#import <JNWCollectionView/JNWCollectionViewGridLayout.h>
+#import <JNWCollectionView/NSIndexPath+JNWAdditions.h>

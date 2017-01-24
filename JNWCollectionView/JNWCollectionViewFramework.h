@@ -166,7 +166,7 @@ typedef NS_ENUM(NSInteger, JNWCollectionViewScrollPosition) {
 // color underneath the document view.
 //
 // Defaults to a clear color.
-@property (nonatomic, strong) NSColor *backgroundColor;
+@property (copy) NSColor *backgroundColor;
 
 #pragma mark - Information
 

@@ -348,7 +348,7 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
 }
 
 - (void)setBackgroundColor:(NSColor *)backgroundColor {
-	self.contentView.backgroundColor = backgroundColor;
+	self.contentView.backgroundColor = [backgroundColor copy];
 }
 
 - (NSColor *)backgroundColor {

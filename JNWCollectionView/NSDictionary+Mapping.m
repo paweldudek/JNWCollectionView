@@ -7,7 +7,7 @@
 
 @implementation NSDictionary (Mapping)
 
-- (NSDictionary*)uint_dictionaryByMappingKeys:(id (^)(id))block
+- (NSDictionary*)jnw_dictionaryByMappingKeys:(id (^)(id))block
 {
     NSMutableDictionary* result = [NSMutableDictionary dictionary];
     [self enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL* stop)
