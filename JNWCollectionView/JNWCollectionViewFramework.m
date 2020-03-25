@@ -160,7 +160,7 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
 	_collectionViewFlags.delegateShouldDeselect = [delegate respondsToSelector:@selector(collectionView:shouldDeselectItemAtIndexPath:)];
 	_collectionViewFlags.delegateDidDeselect = [delegate respondsToSelector:@selector(collectionView:didDeselectItemAtIndexPath:)];
 	_collectionViewFlags.delegateDidDoubleClick = [delegate respondsToSelector:@selector(collectionView:didDoubleClickItemAtIndexPath:)];
-	_collectionViewFlags.delegateDidRightClick = [delegate respondsToSelector:@selector(collectionView:didRightClickItemAtIndexPath:)];
+    _collectionViewFlags.delegateDidRightClick = [delegate respondsToSelector:@selector(collectionView:didRightClickItemAtIndexPath:withEvent:)];
 	_collectionViewFlags.delegateDidEndDisplayingCell = [delegate respondsToSelector:@selector(collectionView:didEndDisplayingCell:forItemAtIndexPath:)];
 }
 
@@ -1022,7 +1022,7 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
 - (void)rightClickInCollectionViewCell:(JNWCollectionViewCell *)cell withEvent:(NSEvent *)event {
 	if (_collectionViewFlags.delegateDidRightClick) {
 		NSIndexPath *indexPath = [self indexPathForCell:cell];
-		[self.delegate collectionView:self didRightClickItemAtIndexPath:indexPath];
+        [self.delegate collectionView:self didRightClickItemAtIndexPath:indexPath withEvent:event];
 	}
 }
 
